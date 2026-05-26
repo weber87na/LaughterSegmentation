@@ -1,0 +1,1121 @@
+/* ==========================================
+   Simpsons Cartoon (Comic Book) CSS Stylesheet
+   ========================================== */
+
+/* 全域辛普森卡通變數 */
+:root {
+    --simpsons-yellow: #ffd90f;      /* 經典辛普森黃 */
+    --simpsons-blue: #3e92d3;        /* 經典辛普森天空藍 */
+    --simpsons-donut: #ff69b4;      /* 甜甜圈糖衣粉紅 */
+    --simpsons-white: #ffffff;
+    
+    --bg-primary: #3e92d3;           /* 天空藍背景 */
+    --bg-card: #ffffff;              /* 卡通白色卡片 */
+    --border-dark: #000000;          /* 粗黑線 */
+    
+    --text-primary: #000000;         /* 實心黑色字 */
+    --text-secondary: #222222;
+    --text-muted: #555555;
+    
+    /* 卡通風格陰影 (Neobrutalism/Comic book shadow) */
+    --cartoon-shadow-lg: 8px 8px 0px #000000;
+    --cartoon-shadow-md: 4px 4px 0px #000000;
+    --cartoon-shadow-sm: 2px 2px 0px #000000;
+    
+    --font-sans: 'Outfit', 'Comic Sans MS', 'Chalkboard SE', "Microsoft JhengHei", sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* 重設 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-primary);
+    /* 辛普森開場藍天白雲圖案 */
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.4) 10%, transparent 11%),
+        radial-gradient(circle at 25% 38%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.4) 12%, transparent 13%),
+        radial-gradient(circle at 15% 40%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.4) 8%, transparent 9%),
+        radial-gradient(circle at 80% 60%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.3) 14%, transparent 15%),
+        radial-gradient(circle at 85% 68%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.3) 10%, transparent 11%),
+        radial-gradient(circle at 75% 70%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.3) 8%, transparent 9%);
+    background-size: 400px 400px;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 滾動條樣式 */
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background: #000000;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--simpsons-yellow);
+    border: 3px solid #000000;
+    border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--simpsons-donut);
+}
+
+/* 主容器 */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex-grow: 1;
+}
+
+/* 卡通實線卡片基礎 */
+.glass-card {
+    background: var(--bg-card);
+    border: 4px solid var(--border-dark);
+    border-radius: 16px;
+    box-shadow: var(--cartoon-shadow-lg);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* 頂部導航列 */
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 28px;
+    background: var(--simpsons-yellow) !important;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.neon-glow-icon {
+    font-size: 2.5rem;
+    color: var(--simpsons-donut);
+    -webkit-text-fill-color: initial;
+    filter: drop-shadow(3px 3px 0px #000000);
+}
+
+.logo-text h1 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: #000000;
+    -webkit-text-fill-color: initial;
+    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
+}
+
+.logo-text h1 span {
+    font-weight: 400;
+    color: #000000;
+}
+
+.logo-text p {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.gpu-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #4caf50;
+    border: 3px solid #000000;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #ffffff;
+    box-shadow: var(--cartoon-shadow-sm);
+}
+
+/* 卡通按鈕樣式 */
+.btn {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 0.95rem;
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: 3px solid #000000;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--cartoon-shadow-md);
+    transition: all 0.15s ease;
+}
+
+.btn-primary {
+    background: var(--simpsons-donut);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000000;
+    background: #ff4fa8;
+}
+
+.btn-secondary {
+    background: var(--simpsons-yellow);
+    color: #000000;
+}
+
+.btn-secondary:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000000;
+    background: #ffe342;
+}
+
+.btn-sm {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    border-width: 2px;
+    box-shadow: var(--cartoon-shadow-sm);
+}
+
+.btn-sm:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px #000000;
+}
+
+/* ==========================================
+   1. 上傳區域樣式
+   ========================================== */
+.upload-container {
+    padding: 40px;
+}
+
+.upload-box {
+    border: 4px dashed #000000;
+    border-radius: 16px;
+    padding: 60px 40px;
+    cursor: pointer;
+    background: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.upload-box:hover, .upload-box.dragover {
+    background: #fffdf0;
+    border-style: solid;
+    box-shadow: inset 0 0 0 4px var(--simpsons-yellow);
+}
+
+.upload-icon {
+    font-size: 4.5rem;
+    color: var(--simpsons-yellow);
+    -webkit-text-fill-color: initial;
+    margin-bottom: 20px;
+    filter: drop-shadow(4px 4px 0px #000000);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.upload-box:hover .upload-icon {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.upload-box h2 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.upload-box p {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+
+/* ==========================================
+   2. 載入動畫區域 (甜甜圈旋轉卡通動畫)
+   ========================================== */
+.loading-container {
+    padding: 60px 40px;
+}
+
+.loader-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+
+/* 卡通甜甜圈載入動畫 */
+.radar-loader {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    background: #e5a93b; /* 甜甜圈本體麵糰色 */
+    border: 6px solid #000000;
+    border-radius: 50%;
+    animation: donutSpin 2s linear infinite;
+}
+
+/* 甜甜圈的中間洞與粉紅糖衣 */
+.radar-loader::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    background: var(--bg-primary); /* 天空藍洞 */
+    border: 6px solid #000000;
+    border-radius: 50%;
+}
+
+.radar-loader span {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+    border: 4px solid var(--simpsons-donut);
+    border-radius: 50%;
+    opacity: 1;
+    animation: none;
+    background: var(--simpsons-donut);
+    z-index: 1;
+    /* 撒上巧克力米線 */
+    background-image: 
+        linear-gradient(45deg, #000 25%, transparent 25%),
+        linear-gradient(-45deg, #000 25%, transparent 25%),
+        linear-gradient(45deg, #ffd90f 25%, #ffd90f 25%),
+        linear-gradient(-45deg, #2563eb 25%, #2563eb 25%);
+    background-size: 16px 16px;
+    background-position: 0 0, 8px 0, 4px 8px, 12px 8px;
+    mask-image: radial-gradient(circle, transparent 35%, black 36%);
+    -webkit-mask-image: radial-gradient(circle, transparent 35%, black 36%);
+}
+
+@keyframes donutSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loader-status {
+    text-align: center;
+}
+
+.loader-status h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+    color: #000000;
+    -webkit-text-fill-color: initial;
+}
+
+.pulse-text {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #000000;
+}
+
+.loading-progress-bar {
+    width: 100%;
+    max-width: 320px;
+    height: 16px;
+    background: #ffffff;
+    border: 3px solid #000000;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--simpsons-yellow);
+    border-radius: 0;
+    box-shadow: none;
+    /* 卡通斜條紋背景 */
+    background-image: linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.12) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.12) 50%,
+        rgba(0, 0, 0, 0.12) 75%,
+        transparent 75%,
+        transparent
+    );
+    background-size: 24px 24px;
+    /* 雙軌動畫：fakeProgress 控制進度平滑累積，stripeMove 負責斜紋滾動 */
+    animation: 
+        fakeProgress 10s cubic-bezier(0.075, 0.82, 0.165, 1) forwards,
+        stripeMove 0.8s linear infinite;
+}
+
+@keyframes stripeMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 24px 0; }
+}
+
+@keyframes fakeProgress {
+    0% { width: 0%; }
+    20% { width: 40%; }
+    50% { width: 75%; }
+    80% { width: 90%; }
+    96% { width: 97%; }
+    100% { width: 99%; }
+}
+
+/* ==========================================
+   3. 工作區域與音訊波形
+   ========================================== */
+.workspace-container {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+}
+
+@media (max-width: 900px) {
+    .workspace-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 4px solid #000000;
+    background: var(--simpsons-yellow);
+    border-radius: 12px 12px 0 0;
+}
+
+.panel-header h3 {
+    font-size: 1.15rem;
+    font-weight: 900;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.file-info h3 {
+    max-width: 380px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.text-purple {
+    color: #000000;
+    filter: none;
+}
+
+/* 波形渲染盒 */
+.waveform-box {
+    padding: 30px 24px 20px 24px;
+    background: #ffffff;
+    border-bottom: 4px solid #000000;
+}
+
+#waveform {
+    width: 100%;
+    min-height: 128px;
+    background: #fbfbfb;
+    border: 3px solid #000000;
+    border-radius: 12px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* 播放控制器 */
+.player-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: #ffffff;
+    border-radius: 0 0 12px 12px;
+}
+
+.control-left, .control-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.control-btn {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 3px solid #000000;
+    color: #000000;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--cartoon-shadow-sm);
+    transition: all 0.1s ease;
+}
+
+.control-btn:hover {
+    background: var(--simpsons-yellow);
+    border-color: #000000;
+    color: #000000;
+    box-shadow: 1px 1px 0px #000000;
+    transform: translate(1px, 1px);
+}
+
+#play-btn {
+    background: var(--simpsons-donut);
+    border-color: #000000;
+    width: 52px;
+    height: 52px;
+    font-size: 1.3rem;
+    color: #ffffff;
+    box-shadow: var(--cartoon-shadow-md);
+}
+
+#play-btn:hover {
+    background: #ff4fa8;
+    box-shadow: 2px 2px 0px #000000;
+    transform: translate(2px, 2px);
+}
+
+.time-display {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #000000;
+    margin-left: 8px;
+}
+
+/* 音量控制條 */
+.volume-slider-container {
+    display: flex;
+    align-items: center;
+    width: 80px;
+}
+
+#volume-slider {
+    width: 100%;
+    height: 10px;
+    border-radius: 10px;
+    background: #ffffff;
+    border: 3px solid #000000;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--simpsons-donut);
+    border: 3px solid #000000;
+    cursor: pointer;
+}
+
+/* ==========================================
+   4. 右側笑聲段落儀表板
+   ========================================== */
+.dashboard-panel {
+    display: flex;
+    flex-direction: column;
+    max-height: 530px;
+}
+
+@media (max-width: 900px) {
+    .dashboard-panel {
+        max-height: 400px;
+    }
+}
+
+.count-badge {
+    background: #000000;
+    border: none;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 8px;
+}
+
+.segments-list-container {
+    padding: 16px;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #f9f9f9;
+    border-radius: 0 0 12px 12px;
+}
+
+/* 卡通段落卡片樣式 */
+.segment-card {
+    background: #ffffff;
+    border: 3px solid #000000;
+    border-radius: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--cartoon-shadow-md);
+    transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.segment-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000000;
+}
+
+.segment-card.active {
+    transform: translate(2px, 2px) !important;
+    box-shadow: 2px 2px 0px #000000 !important;
+}
+
+.seg-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.seg-index-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 3px solid #000000 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    font-weight: 900;
+    box-shadow: 1px 1px 0 #000;
+}
+
+.seg-time-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.seg-duration {
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.seg-timestamp {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.seg-play-icon {
+    font-size: 1.2rem;
+    transition: transform 0.15s ease;
+}
+
+.segment-card:hover .seg-play-icon {
+    transform: scale(1.2) rotate(-5deg);
+}
+
+/* 空白狀態 */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    height: 100%;
+    color: var(--text-muted);
+    padding: 40px 0;
+}
+
+.empty-state i {
+    font-size: 2.5rem;
+    color: #000000;
+}
+
+.empty-state p {
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+/* 頁尾 */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    color: #000000;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-top: auto;
+}
+
+footer i {
+    font-size: 0.8rem;
+    color: var(--simpsons-donut);
+}
+
+/* 工具類 */
+.hidden {
+    display: none !important;
+}
+
+/* Wavesurfer regions 高亮標記背景設定 */
+.wavesurfer-region {
+    border: 3px solid #000000 !important;
+    border-radius: 6px;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.15) !important;
+    transition: background-color 0.2s, border 0.2s ease;
+}
+
+.wavesurfer-region:hover {
+    filter: brightness(0.9) !important; /* 卡通飽和度在 hover 時稍微變深 */
+}
+
+/* 紅色閃爍 REC 指示燈 */
+.rec-red-dot {
+    width: 24px;
+    height: 24px;
+    background-color: #f44336;
+    border: 3px solid #000000;
+    border-radius: 50%;
+    animation: cartoonBlink 0.8s infinite alternate;
+    box-shadow: 2px 2px 0px #000000;
+}
+
+@keyframes cartoonBlink {
+    0% { opacity: 0.15; transform: scale(0.85); }
+    100% { opacity: 1; transform: scale(1.1); }
+}
+
+/* ==========================================
+   🎮 遊戲大廳 (Lobby) 樣式
+   ========================================== */
+.lobby-container {
+    padding: 30px;
+    text-align: center;
+}
+
+.lobby-banner {
+    margin-bottom: 30px;
+}
+
+.lobby-banner h2 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+.lobby-banner p {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.lobby-trophy-icon {
+    font-size: 3.5rem;
+    color: var(--simpsons-yellow);
+    filter: drop-shadow(3px 3px 0px #000000);
+}
+
+.lobby-modes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+    .lobby-modes-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.mode-card {
+    background: #ffffff;
+    border: 4px solid #000000;
+    border-radius: 16px;
+    padding: 32px 24px;
+    cursor: pointer;
+    box-shadow: var(--cartoon-shadow-lg);
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.mode-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 12px 12px 0px #000000;
+    border-color: #000000;
+}
+
+.mode-icon {
+    font-size: 3.5rem;
+    filter: drop-shadow(3px 3px 0px #000000);
+}
+
+.text-pink { color: var(--simpsons-donut); }
+.text-blue { color: var(--simpsons-blue); }
+.text-yellow { color: var(--simpsons-yellow); }
+.text-green { color: #4caf50; }
+
+.mode-card h3 {
+    font-size: 1.4rem;
+    font-weight: 900;
+}
+
+.mode-card p {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    line-height: 1.4;
+    text-align: center;
+}
+
+.mode-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 2px solid #000000;
+    color: #ffffff;
+}
+
+.bg-pink { background: var(--simpsons-donut); }
+.bg-blue { background: var(--simpsons-blue); }
+
+.lobby-footer {
+    border-top: 3px solid #000000;
+    padding-top: 24px;
+}
+
+/* ==========================================
+   🎮 遊戲中畫面 (Game Playing) 樣式
+   ========================================== */
+.game-play-container {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.game-play-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 4px solid #000;
+    padding-bottom: 16px;
+}
+
+.game-play-header h2 {
+    font-weight: 900;
+    font-size: 1.6rem;
+}
+
+.game-timer-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #000000;
+    color: #ffffff;
+    padding: 8px 18px;
+    border-radius: 12px;
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    font-weight: 900;
+}
+
+.game-timer-box i {
+    color: var(--simpsons-yellow);
+}
+
+.game-interaction-area {
+    min-height: 220px;
+    background: #f0f0f0;
+    border: 4px solid #000000;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 4px 4px 0px rgba(0,0,0,0.1);
+}
+
+/* 憋笑模式迷因盒 */
+.game-meme-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 12px;
+}
+
+.game-meme-box img {
+    max-height: 160px;
+    border: 3px solid #000000;
+    border-radius: 8px;
+    box-shadow: var(--cartoon-shadow-sm);
+    object-fit: contain;
+}
+
+.meme-caption {
+    margin-top: 10px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #ffffff;
+    background: #000000;
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: 2px solid #000;
+}
+
+/* 大笑持久戰能量動畫 */
+.game-endurance-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.laugh-donut-emoji {
+    font-size: 4rem;
+    color: var(--simpsons-yellow);
+    filter: drop-shadow(4px 4px 0px #000000);
+    animation: bounceDonut 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes bounceDonut {
+    0% { transform: translateY(0) scale(0.9); }
+    100% { transform: translateY(-15px) scale(1.1) rotate(5deg); }
+}
+
+/* 遊戲卡通能量條/血條 */
+.game-status-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #ffffff;
+    padding: 16px;
+    border: 3px solid #000000;
+    border-radius: 12px;
+}
+
+.game-progress-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.game-progress-container label {
+    font-weight: 800;
+    font-size: 0.95rem;
+}
+
+.game-bar-outer {
+    width: 100%;
+    height: 24px;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.border-black {
+    border: 3px solid #000000;
+}
+
+.game-bar-fill {
+    height: 100%;
+    width: 0%;
+    background-size: 24px 24px;
+    background-image: linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.12) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.12) 50%,
+        rgba(0, 0, 0, 0.12) 75%,
+        transparent 75%,
+        transparent
+    );
+    transition: width 0.3s ease;
+    animation: stripeMove 0.8s linear infinite;
+}
+
+.bg-green { background-color: #4caf50; }
+
+.game-rec-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+/* ==========================================
+   🎮 遊戲結算 (Result) 樣式
+   ========================================== */
+.game-result-container {
+    padding: 32px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.result-header h2 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin-top: 6px;
+    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
+}
+
+.badge {
+    background: #000;
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 0.8rem;
+    padding: 4px 12px;
+    border-radius: 6px;
+}
+
+.result-badge-showcase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin: 10px 0;
+}
+
+.badge-icon-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid #000000;
+    background: var(--simpsons-yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    box-shadow: var(--cartoon-shadow-md);
+    transform: rotate(-5deg);
+    animation: badgeWiggle 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes badgeWiggle {
+    0% { transform: rotate(-8deg) scale(0.95); }
+    100% { transform: rotate(8deg) scale(1.05); }
+}
+
+.result-badge-showcase h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+.result-badge-showcase p {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    max-width: 420px;
+}
+
+.result-stats-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px 0;
+}
+
+.stat-card {
+    background: #ffffff;
+    border: 3px solid #000000;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: var(--cartoon-shadow-md);
+}
+
+.stat-val {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.stat-lbl {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--text-muted);
+}
+
+/* ==========================================
+   🍩 甜甜圈下雨粒子特效
+   ========================================== */
+.donut-rain-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.donut-particle {
+    position: absolute;
+    top: -50px;
+    font-size: 32px;
+    pointer-events: none;
+    animation: donutFall 3.2s linear forwards;
+}
+
+@keyframes donutFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0.3;
+    }
+}
+

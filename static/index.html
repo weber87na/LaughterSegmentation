@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>笑頓偵測器 | AI 笑聲提取視覺化平台</title>
+    
+    <!-- 引入高質感 Google 字型 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- 引入 FontAwesome 圖標 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 引入本機 CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+    
+    <!-- 引入 Wavesurfer.js v7 CDN 與 Regions 插件 -->
+    <script src="https://unpkg.com/wavesurfer.js@7/dist/wavesurfer.min.js"></script>
+    <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/regions.min.js"></script>
+</head>
+<body>
+    <div class="glow-bg"></div>
+    
+    <!-- 甜甜圈下雨粒子容器 -->
+    <div id="donut-rain-container" class="donut-rain-container"></div>
+    
+    <div class="container">
+        <!-- 頂部標題區 -->
+        <header class="glass-card header-bar">
+            <div class="logo" id="logo-home" style="cursor: pointer;">
+                <i class="fa-solid fa-face-grin-squint neon-glow-icon"></i>
+                <div class="logo-text">
+                    <h1>笑頓<span>偵測器</span></h1>
+                    <p>AI 音訊笑聲偵測與卡通大挑戰遊戲</p>
+                </div>
+            </div>
+            <div class="gpu-badge">
+                <i class="fa-solid fa-gamepad"></i>
+                <span>SIMPSONS LAUGH GAME</span>
+            </div>
+        </header>
+
+        <!-- 主體內容區 -->
+        <main>
+            <!-- 🎯 A. 遊戲大廳選單 (Lobby) -->
+            <section id="lobby-section" class="glass-card lobby-container">
+                <div class="lobby-banner">
+                    <i class="fa-solid fa-trophy lobby-trophy-icon"></i>
+                    <h2>歡迎來到笑頓大挑戰！</h2>
+                    <p>利用先進的 AI 深度學習大模型，測驗您的笑聲指數或憋笑功力！</p>
+                </div>
+                
+                <div class="lobby-modes-grid">
+                    <!-- 模式一 -->
+                    <div class="mode-card" id="select-endurance-btn">
+                        <div class="mode-icon text-pink"><i class="fa-solid fa-face-grin-tears"></i></div>
+                        <h3>大笑持久戰</h3>
+                        <p>在 15 秒內對著麥克風盡情狂笑！挑戰您的笑聲覆蓋率，大笑能量條越高得分越高！</p>
+                        <span class="mode-badge bg-pink">ENDURANCE</span>
+                    </div>
+                    
+                    <!-- 模式二 -->
+                    <div class="mode-card" id="select-憋笑-btn">
+                        <div class="mode-icon text-blue"><i class="fa-solid fa-face-expression-less"></i></div>
+                        <h3>憋笑大考驗</h3>
+                        <p>極限憋笑 15 秒！畫面將播放超級搞笑的辛普森迷因，AI 背景即時監聽，笑出聲血條扣光即失敗！</p>
+                        <span class="mode-badge bg-blue">DON'T LAUGH</span>
+                    </div>
+                </div>
+                
+                <div class="lobby-footer">
+                    <button class="btn btn-secondary" id="select-tool-btn">
+                        <i class="fa-solid fa-toolbox"></i> 切換為「一般音訊分析模式」
+                    </button>
+                </div>
+            </section>
+
+            <!-- 🎤 B. 一般上傳/錄音模式 (原本的功能) -->
+            <section id="upload-section" class="glass-card upload-container hidden">
+                <div class="panel-header" style="background: none; border-bottom: none; margin-bottom: 20px;">
+                    <h3><i class="fa-solid fa-toolbox"></i> 一般音訊分析模式</h3>
+                    <button class="btn btn-secondary btn-sm" id="tool-back-btn">
+                        <i class="fa-solid fa-arrow-left"></i> 返回遊戲大廳
+                    </button>
+                </div>
+                
+                <div class="upload-box" id="drop-zone">
+                    <input type="file" id="file-input" accept="audio/*,video/mp4" hidden>
+                    
+                    <!-- 預設上傳介面 -->
+                    <div id="upload-default-ui">
+                        <div class="upload-icon">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <h2>將音訊或影片檔案拖放到此處</h2>
+                        <p>支援 WAV, MP3, MP4 (視訊音軌), OPUS, OGG, FLAC, WEBM 等常見格式</p>
+                        <div class="upload-actions" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 10px;">
+                            <button class="btn btn-primary" id="select-btn">
+                                <i class="fa-solid fa-folder-open"></i> 瀏覽電腦檔案
+                            </button>
+                            <button class="btn" id="start-rec-btn" style="background: #f44336; color: white;">
+                                <i class="fa-solid fa-microphone"></i> 麥克風即時錄音
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 麥克風錄音中介面 -->
+                    <div id="upload-recording-ui" class="hidden">
+                        <div class="rec-status-container" style="display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 24px;">
+                            <div class="rec-blink-indicator" style="display: flex; align-items: center; gap: 10px;">
+                                <span class="rec-red-dot"></span>
+                                <span style="font-weight: 900; font-size: 1.4rem; letter-spacing: 1px;">REC</span>
+                            </div>
+                            <div id="rec-timer" style="font-family: var(--font-mono); font-size: 2.8rem; font-weight: 900; color: #000;">00:00</div>
+                            <div id="rec-mini-loader" class="hidden" style="font-weight: 900; color: var(--simpsons-donut); font-size: 1rem; animation: fadePulse 1.2s infinite alternate;">
+                                <i class="fa-solid fa-rotate fa-spin"></i> AI 背景即時分析中...
+                            </div>
+                            <p style="font-weight: 800; color: var(--text-secondary);">正在錄製您的笑聲 / 語音...</p>
+                        </div>
+                        <div class="upload-actions" style="display: flex; gap: 16px; justify-content: center;">
+                            <button class="btn" id="stop-rec-btn" style="background: #4caf50; color: white;">
+                                <i class="fa-solid fa-circle-stop"></i> 停止並偵測笑聲
+                            </button>
+                            <button class="btn btn-secondary" id="cancel-rec-btn">
+                                取消
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 🎮 C. 遊戲進行中畫面 (Game Playing) -->
+            <section id="game-play-section" class="glass-card game-play-container hidden">
+                <div class="game-play-header">
+                    <h2 id="game-mode-title">大笑持久戰中...</h2>
+                    <div class="game-timer-box">
+                        <i class="fa-solid fa-clock pulse-text"></i>
+                        <span id="game-timer-num">15</span><span>s</span>
+                    </div>
+                </div>
+
+                <!-- 遊戲互動區 (迷因展示或錄音計時) -->
+                <div class="game-interaction-area">
+                    <!-- 憋笑模式迷因輪播區 -->
+                    <div id="game-meme-box" class="game-meme-box hidden">
+                        <img id="game-meme-img" src="" alt="Simpsons Meme">
+                        <div class="meme-caption" id="game-meme-caption">千萬別笑！冷靜！</div>
+                    </div>
+
+                    <!-- 大笑持久戰能量展示區 -->
+                    <div id="game-endurance-box" class="game-endurance-box">
+                        <div class="laugh-donut-emoji"><i class="fa-solid fa-face-grin-squint-tears"></i></div>
+                        <p class="pulse-text" style="font-size: 1.1rem;">對著麥克風盡情狂笑吧！</p>
+                    </div>
+                </div>
+
+                <!-- 遊戲進度/能量與血條面板 -->
+                <div class="game-status-panel">
+                    <!-- 憋笑血條 (HP) -->
+                    <div id="game-hp-container" class="game-progress-container hidden">
+                        <label><i class="fa-solid fa-heart text-pink"></i> 憋笑防線 (HP):</label>
+                        <div class="game-bar-outer border-black">
+                            <div id="game-hp-fill" class="game-bar-fill bg-green" style="width: 100%;"></div>
+                        </div>
+                    </div>
+
+                    <!-- 大笑能量條 (Power) -->
+                    <div id="game-power-container" class="game-progress-container">
+                        <label><i class="fa-solid fa-bolt text-yellow"></i> 大笑能量 (Power):</label>
+                        <div class="game-bar-outer border-black">
+                            <div id="game-power-fill" class="game-bar-fill bg-pink" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-rec-indicator">
+                        <span class="rec-red-dot"></span>
+                        <span style="font-weight: 800; font-size: 0.95rem;">麥克風即時監聽中...</span>
+                    </div>
+                </div>
+
+                <!-- 遊戲操作按鈕 -->
+                <div class="game-actions" style="margin-top: 24px; display: flex; justify-content: center; gap: 16px;">
+                    <button class="btn btn-primary" id="game-stop-btn" style="background: #4caf50;">
+                        <i class="fa-solid fa-square-check"></i> 提前停止並看結算
+                    </button>
+                    <button class="btn btn-secondary" id="game-cancel-btn">
+                        放棄挑戰
+                    </button>
+                </div>
+            </section>
+
+            <!-- 🏆 D. 遊戲結算卡片 (Game Result) -->
+            <section id="game-result-section" class="glass-card game-result-container hidden">
+                <div class="result-header">
+                    <span class="badge" id="result-mode-badge">憋笑大考驗</span>
+                    <h2 id="result-status-title">挑戰成功！</h2>
+                </div>
+
+                <div class="result-badge-showcase">
+                    <!-- 徽章圖片或圖標 -->
+                    <div class="badge-icon-circle" id="result-badge-icon">
+                        <i class="fa-solid fa-face-grin-squint-tears"></i>
+                    </div>
+                    <h3 id="result-badge-title">Homer 級狂笑怪人</h3>
+                    <p id="result-badge-desc">你成功笑了 8.5 秒！大笑能力令人刮目相看！</p>
+                </div>
+
+                <div class="result-stats-board">
+                    <div class="stat-card">
+                        <span class="stat-val" id="stat-score">85</span>
+                        <span class="stat-lbl">最終得分</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-val" id="stat-seconds">8.5s</span>
+                        <span class="stat-lbl" id="stat-seconds-lbl">笑聲長度</span>
+                    </div>
+                </div>
+
+                <div class="result-actions" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn btn-primary" id="result-replay-btn">
+                        <i class="fa-solid fa-rotate-right"></i> 再挑戰一次
+                    </button>
+                    <button class="btn btn-secondary" id="result-view-wavesurfer-btn" style="background: var(--simpsons-yellow);">
+                        <i class="fa-solid fa-chart-line"></i> 查看 AI 詳細波形分析
+                    </button>
+                    <button class="btn btn-secondary" id="result-lobby-btn">
+                        <i class="fa-solid fa-house"></i> 返回大廳
+                    </button>
+                </div>
+            </section>
+
+            <!-- ⏳ 2. AI 運算載入畫面 (甜甜圈) -->
+            <section id="loading-section" class="glass-card loading-container hidden">
+                <div class="loader-box">
+                    <div class="radar-loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="loader-status">
+                        <h3>正在進行 AI 深度學習分析...</h3>
+                        <p class="pulse-text">GPU 正在進行音訊特徵提取與笑聲語意分割...</p>
+                    </div>
+                    <div class="loading-progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 📊 3. 結果視覺化分析工作區 (原本的功能) -->
+            <section id="workspace-section" class="workspace-container hidden">
+                <!-- 左側：音訊波形與控制器 -->
+                <div class="glass-card player-panel">
+                    <div class="panel-header">
+                        <div class="file-info">
+                            <i class="fa-solid fa-music text-purple"></i>
+                            <h3 id="display-filename">audio_file.wav</h3>
+                        </div>
+                        <button class="btn btn-secondary btn-sm" id="reset-btn">
+                            <i class="fa-solid fa-house"></i> 返回主畫面
+                        </button>
+                    </div>
+                    
+                    <!-- Waveform 渲染容器 -->
+                    <div class="waveform-box">
+                        <div id="waveform"></div>
+                    </div>
+
+                    <!-- 撥放控制列 -->
+                    <div class="player-controls">
+                        <div class="control-left">
+                            <button class="control-btn" id="play-btn" title="播放/暫停">
+                                <i class="fa-solid fa-play"></i>
+                            </button>
+                            <button class="control-btn" id="stop-btn" title="停止">
+                                <i class="fa-solid fa-stop"></i>
+                            </button>
+                            <span class="time-display" id="time-display">00:00 / 00:00</span>
+                        </div>
+                        
+                        <div class="control-right">
+                            <button class="control-btn" id="mute-btn" title="靜音">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </button>
+                            <div class="volume-slider-container">
+                                <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側：笑聲區段儀表板 -->
+                <div class="glass-card dashboard-panel">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-face-laugh-beam text-purple"></i> 偵測到的笑聲片段</h3>
+                        <span class="count-badge" id="segment-count">0 段笑聲</span>
+                    </div>
+
+                    <div class="segments-list-container" id="segments-list">
+                        <!-- 動態插入笑聲段落卡片 -->
+                        <div class="empty-state">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <p>此音訊中未偵測到明顯笑聲</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- 底部頁尾 -->
+        <footer>
+            <p>Made with <i class="fa-solid fa-heart text-purple"></i> by Antigravity Simpsons Game Engine. 2026 版權所有.</p>
+        </footer>
+    </div>
+
+    <!-- 引入前端邏輯 -->
+    <script src="/static/app.js"></script>
+</body>
+</html>

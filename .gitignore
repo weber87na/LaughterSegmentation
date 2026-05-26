@@ -141,3 +141,15 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# ==========================================
+# 🍩 辛普森笑聲偵測器專屬忽略規則
+# ==========================================
+# 排除 AI 大模型檔案 (因為 > 1GB，GitHub 單一檔案限制 100MB)
+/models/
+*.safetensors
+*.bin
+
+# 排除網頁端執行時產生的使用者測試上傳與 AI 偵測結果暫存檔
+/static/uploads/
+/static/output/
